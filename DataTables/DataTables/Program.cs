@@ -8,6 +8,18 @@ namespace DataTables
 {
     class Program
     {
+
+        //Some global Dataset vars
+
+        //createSampleSet(){}
+
+        //loadSetFromCSV(){}
+
+        //findAndCompare(){}
+
+        //querAndReturnResult(){}
+
+
         static void Main(string[] args)
         {
             //This program is dedicated to building the ablity to read in .csv files, construct data-tables
