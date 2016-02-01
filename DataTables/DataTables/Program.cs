@@ -21,7 +21,7 @@ namespace DataTables
             UserDataTable.Columns.Add("First name", typeof(string));
 
             //fill with some sample data
-            UserDataTable.Rows.Add("PXXXXXXXX", "Zero", "Test"); 
+            UserDataTable.Rows.Add("PXXXXXXXX", "Zero", "Test");
             UserDataTable.Rows.Add("PXXXXXXXX", "One", "Test");
             UserDataTable.Rows.Add("PXXXXXXXX", "Two", "Test");
             UserDataTable.Rows.Add("PXXXXXXXX", "Three", "Test");
@@ -52,13 +52,13 @@ namespace DataTables
         public static DataTable loadSetFromCSV(string filePath)
         {
             DataTable csvDt = new DataTable();
-           
+
             //read .csv into string[]
-            string[] csvRows = System.IO.File.ReadAllLines(filePath); 
+            string[] csvRows = System.IO.File.ReadAllLines(filePath);
             string[] fields = null;
 
             //take the header row and split it up
-            string colHeaders = csvRows[0]; 
+            string colHeaders = csvRows[0];
             string[] headerFeilds = colHeaders.Split(',');
 
             //Asign columns based on header names
@@ -76,11 +76,11 @@ namespace DataTables
 
             csvDt.Columns.Add(spacer);
             csvDt.Columns.Add(spacer1);
-           
+
             //take each row of data, read it into data row then add to data table
             for (int i = 1; i < csvRows.Length; i++)
-            {      
-                fields = csvRows[i].Split(','); 
+            {
+                fields = csvRows[i].Split(',');
                 DataRow dataRow = csvDt.NewRow();
                 dataRow.ItemArray = fields;
                 csvDt.Rows.Add(dataRow);
@@ -88,13 +88,18 @@ namespace DataTables
             return csvDt;
         }
 
-        //findAndCompare(DataTable  orTwo asParam?)
+        static void findAndCompare(DataTable userDatatable, DataTable csvDataTable)
+        {
 
-                //1) take userSample and query/find random row 
-                //2) take result from 1 and use it to query/find corresponding row(s) from from csvTable
-                //3) Extract nessesary data (classes) and return as string []?
-                
 
+            string originalUserPid = "PXXXXXXX";
+            DataRow[] Usertemp = userDatatable.Select("StudentID='" + originalUserPid + "'"); // Note: It may seem silly to even need the userDataTable here but I'm leaving it there for a later test
+            DataRow[] Classtemp = csvDataTable.Select("PEOPLE_CODE_ID='" + originalUserPid + "'");
+            //3) Extract nessesary data (classes) and return as string []?
+
+
+
+        }
         //ReturnResult(){} may not be needed
 
 
