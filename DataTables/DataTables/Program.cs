@@ -19,9 +19,14 @@ namespace DataTables
             UserDataTable.Columns.Add("Last name", typeof(string));
             UserDataTable.Columns.Add("First name", typeof(string));
 
-            return UserDataTable;
+            UserDataTable.Rows.Add("PXXXXXXXX", "Zero", "Test"); //fill with some sample data
+            UserDataTable.Rows.Add("PXXXXXXXX", "One", "Test");
+            UserDataTable.Rows.Add("PXXXXXXXX", "Two", "Test");
+            UserDataTable.Rows.Add("PXXXXXXXX", "Three", "Test");
+            UserDataTable.Rows.Add("PXXXXXXXX", "Four", "Test");
+            UserDataTable.Rows.Add("PXXXXXXXX", "Five", "Test");
 
-            //Populate with some test data
+            return UserDataTable;
 
         }
 
@@ -40,7 +45,7 @@ namespace DataTables
 
             return userCourseDataTable;
         }
-        //
+        
         public static DataTable loadSetFromCSV(string filePath)
         {
             DataTable csvDt = new DataTable();
@@ -65,10 +70,11 @@ namespace DataTables
 
         static void Main(string[] args)
         {
-            //This program is dedicated to building the ablity to read in .csv files, construct data-tables
-            //compare values in data tables then return certain values from the table. 
+            DataTable userDataTable = createUserClassTable();
+            DataTable userCourseTable = createUserClassTable();
+            DataTable mainCsvDataTable = loadSetFromCSV("path"); // User option to change path in application
 
-            //Going to start tomorrow beacuse I'm way to tired tonight
+            
         }
     }
 }
