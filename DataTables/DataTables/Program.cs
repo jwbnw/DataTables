@@ -15,11 +15,13 @@ namespace DataTables
         {
             DataTable UserDataTable = new DataTable();
 
+            //define user columns
             UserDataTable.Columns.Add("StudentID", typeof(string));
             UserDataTable.Columns.Add("Last name", typeof(string));
             UserDataTable.Columns.Add("First name", typeof(string));
 
-            UserDataTable.Rows.Add("PXXXXXXXX", "Zero", "Test"); //fill with some sample data
+            //fill with some sample data
+            UserDataTable.Rows.Add("PXXXXXXXX", "Zero", "Test"); 
             UserDataTable.Rows.Add("PXXXXXXXX", "One", "Test");
             UserDataTable.Rows.Add("PXXXXXXXX", "Two", "Test");
             UserDataTable.Rows.Add("PXXXXXXXX", "Three", "Test");
@@ -35,6 +37,7 @@ namespace DataTables
 
             DataTable userCourseDataTable = new DataTable();
 
+            //define course table(where data will end up)
             userCourseDataTable.Columns.Add("StudentID", typeof(string));
             userCourseDataTable.Columns.Add("Course1", typeof(string));
             userCourseDataTable.Columns.Add("Course2", typeof(string));
@@ -45,36 +48,60 @@ namespace DataTables
 
             return userCourseDataTable;
         }
-        
+
         public static DataTable loadSetFromCSV(string filePath)
         {
             DataTable csvDt = new DataTable();
-            string[] csvRows = System.IO.File.ReadAllLines(filePath);
+           
+            //read .csv into string[]
+            string[] csvRows = System.IO.File.ReadAllLines(filePath); 
             string[] fields = null;
-            int counter = 0;
-            foreach(string Row in csvRows)
+
+            //take the header row and split it up
+            string colHeaders = csvRows[0]; 
+            string[] headerFeilds = colHeaders.Split(',');
+
+            //Asign columns based on header names
+            foreach (string column in headerFeilds)
             {
-                fields = csvRows[counter].Split(',');
+                DataColumn headers = new DataColumn(column);
+
+                csvDt.Columns.Add(headers);
+
+            }
+
+            //Note: These are extra columns beacuse for some reason some rows are longer than the header row? Anyway, I'll write a sub-routiene to tidy that up when I have time
+            DataColumn spacer = new DataColumn("Spacer");
+            DataColumn spacer1 = new DataColumn("Spacer1");
+
+            csvDt.Columns.Add(spacer);
+            csvDt.Columns.Add(spacer1);
+           
+            //take each row of data, read it into data row then add to data table
+            for (int i = 1; i < csvRows.Length; i++)
+            {      
+                fields = csvRows[i].Split(',');
                 DataRow dataRow = csvDt.NewRow();
                 dataRow.ItemArray = fields;
                 csvDt.Rows.Add(dataRow);
-                counter++;
             }
             return csvDt;
         }
 
-        //findAndCompare(){}
+        //findAndCompare(DataTable  orTwo asParam?){}
 
-        //querAndReturnResult(){}
+        //ReturnResult(){}
 
 
         static void Main(string[] args)
         {
             DataTable userDataTable = createUserClassTable();
             DataTable userCourseTable = createUserClassTable();
-            DataTable mainCsvDataTable = loadSetFromCSV("path"); // User option to change path in application
+            DataTable mainCsvDataTable = loadSetFromCSV("C:\\Users\\James\\Student_List.csv"); // User option to change path in application
 
-            
+            Console.ReadKey(); // And she works :D
+
+
         }
     }
 }
