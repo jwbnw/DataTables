@@ -80,7 +80,7 @@ namespace DataTables
             //take each row of data, read it into data row then add to data table
             for (int i = 1; i < csvRows.Length; i++)
             {      
-                fields = csvRows[i].Split(',');
+                fields = csvRows[i].Split(','); 
                 DataRow dataRow = csvDt.NewRow();
                 dataRow.ItemArray = fields;
                 csvDt.Rows.Add(dataRow);
@@ -88,9 +88,14 @@ namespace DataTables
             return csvDt;
         }
 
-        //findAndCompare(DataTable  orTwo asParam?){}
+        //findAndCompare(DataTable  orTwo asParam?)
 
-        //ReturnResult(){}
+                //1) take userSample and query/find random row 
+                //2) take result from 1 and use it to query/find corresponding row(s) from from csvTable
+                //3) Extract nessesary data (classes) and return as string []?
+                
+
+        //ReturnResult(){} may not be needed
 
 
         static void Main(string[] args)
