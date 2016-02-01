@@ -10,7 +10,7 @@ namespace DataTables
 {
     class Program
     {
-        
+
         static DataTable createUserSampleTable()
         {
             DataTable UserDataTable = new DataTable();
@@ -20,9 +20,11 @@ namespace DataTables
             UserDataTable.Columns.Add("First name", typeof(string));
 
             return UserDataTable;
-           
+
+            //Populate with some test data
+
         }
-        
+
         static DataTable createUserClassTable()
         {
 
@@ -38,8 +40,23 @@ namespace DataTables
 
             return userCourseDataTable;
         }
-
-        //loadSetFromCSV(){}
+        //
+        public static DataTable loadSetFromCSV(string filePath)
+        {
+            DataTable csvDt = new DataTable();
+            string[] csvRows = System.IO.File.ReadAllLines(filePath);
+            string[] fields = null;
+            int counter = 0;
+            foreach(string Row in csvRows)
+            {
+                fields = csvRows[counter].Split(',');
+                DataRow dataRow = csvDt.NewRow();
+                dataRow.ItemArray = fields;
+                csvDt.Rows.Add(dataRow);
+                counter++;
+            }
+            return csvDt;
+        }
 
         //findAndCompare(){}
 
@@ -50,8 +67,8 @@ namespace DataTables
         {
             //This program is dedicated to building the ablity to read in .csv files, construct data-tables
             //compare values in data tables then return certain values from the table. 
-            
-           //Going to start tomorrow beacuse I'm way to tired tonight
+
+            //Going to start tomorrow beacuse I'm way to tired tonight
         }
     }
 }
