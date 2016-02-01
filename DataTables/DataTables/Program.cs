@@ -4,11 +4,11 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using DataTables;
 
 namespace DataTables
 {
-    class Program
+    class Program 
     {
 
         static DataTable createUserSampleTable()
@@ -54,7 +54,7 @@ namespace DataTables
             DataTable csvDt = new DataTable();
 
             //read .csv into string[]
-            string[] csvRows = System.IO.File.ReadAllLines(filePath);
+            string[] csvRows = System.IO.File.ReadAllLines(filePath); //NOTE: When implementing put inside try-catch for event doc is being used by another program
             string[] fields = null;
 
             //take the header row and split it up
@@ -88,19 +88,18 @@ namespace DataTables
             return csvDt;
         }
 
-        static void findAndCompare(DataTable userDatatable, DataTable csvDataTable)
+
+       public static List<string> rowToPullFrom(string originalUserPid, DataTable csvDataTable) //Comment up tomorrow
         {
 
-
-            string originalUserPid = "PXXXXXXX";
-            DataRow[] Usertemp = userDatatable.Select("StudentID='" + originalUserPid + "'"); // Note: It may seem silly to even need the userDataTable here but I'm leaving it there for a later test
             DataRow[] Classtemp = csvDataTable.Select("PEOPLE_CODE_ID='" + originalUserPid + "'");
-            //3) Extract nessesary data (classes) and return as string []?
 
-
-
+            List<string> s = Classtemp.AsEnumerable().Select(x => x.Field<string>("Class").ToString()).ToList();
+            foreach (string e in s)    //going to leave so I can do more debugging tomorrow
+                Console.WriteLine(e);
+            return s;
         }
-        //ReturnResult(){} may not be needed
+        
 
 
         static void Main(string[] args)
@@ -109,8 +108,9 @@ namespace DataTables
             DataTable userCourseTable = createUserClassTable();
             DataTable mainCsvDataTable = loadSetFromCSV("C:\\Users\\James\\Student_List.csv"); // User option to change path in application
 
-            Console.ReadKey(); // And she works :D
+            List<string> finalList = rowToPullFrom("P000407744", mainCsvDataTable); //Gotem
 
+            Console.ReadKey();
 
         }
     }
