@@ -11,6 +11,16 @@ namespace DataTables
     class Program 
     {
 
+        /*************************************************
+         Method Name: createUserSampleDataTable()
+         Type: DataTable.
+         Description: This method creates a datatable
+         it then add's some test values. NOTE: I don't
+         currently use this method, yet I am leaving it
+         in for later user.
+         Arguments: (O) userDataTable - DataTable
+         Author: James Belford 
+         *************************************************/
         static DataTable createUserSampleTable()
         {
             DataTable UserDataTable = new DataTable();
@@ -32,22 +42,16 @@ namespace DataTables
 
         }
 
-        static DataTable createUserClassTable()
-        {
-
-            DataTable userCourseDataTable = new DataTable();
-
-            //define course table(where data will end up)
-            userCourseDataTable.Columns.Add("StudentID", typeof(string));
-            userCourseDataTable.Columns.Add("Course1", typeof(string));
-            userCourseDataTable.Columns.Add("Course2", typeof(string));
-            userCourseDataTable.Columns.Add("Course3", typeof(string));
-            userCourseDataTable.Columns.Add("Course4", typeof(string));
-            userCourseDataTable.Columns.Add("Course5", typeof(string));
-            userCourseDataTable.Columns.Add("Course6", typeof(string));
-
-            return userCourseDataTable;
-        }
+        /*************************************************
+         Method Name: loadSetFromCSV()
+         Type: DataTable.
+         Description: This method reads in a .csv file
+         and constructs a data table from the .csv.
+         It is composed of two parts. One part creates
+         the colums headers. The rest writes all the rows
+         Arguments: (O) csvDT - DataTable
+         Author: James Belford 
+         *************************************************/
 
         public static DataTable loadSetFromCSV(string filePath)
         {
@@ -88,27 +92,41 @@ namespace DataTables
             return csvDt;
         }
 
-
-       public static List<string> rowToPullFrom(string originalUserPid, DataTable csvDataTable) //Comment up tomorrow
+        /*************************************************
+     Method Name: rowToPullFrom()
+     Type: List.
+     Description: This method takes in a DataTable
+     and string. The DataTable is the csvDataTable with
+     all  user values, the string is the ID. We then use
+     the ID to find the rows we need. We then move them 
+     into a DataRow array. Which we then throw those 
+     values into a list a return said list.
+     Arguments: (I) string - ID
+                (I) DataTable - csvDataTable
+                (O) s - List
+     Author: James Belford 
+     *************************************************/
+        public static List<string> rowToPullFrom(string originalUserPid, DataTable csvDataTable) //Comment up tomorrow
         {
 
             DataRow[] Classtemp = csvDataTable.Select("PEOPLE_CODE_ID='" + originalUserPid + "'");
 
+            // A damn nifty line of code if I may say so myself.
             List<string> s = Classtemp.AsEnumerable().Select(x => x.Field<string>("Class").ToString()).ToList();
+
             foreach (string e in s)    //going to leave so I can do more debugging tomorrow
                 Console.WriteLine(e);
             return s;
         }
         
 
-
+        //Main
         static void Main(string[] args)
         {
-            DataTable userDataTable = createUserClassTable();
-            DataTable userCourseTable = createUserClassTable();
+            DataTable userDataTable = createUserSampleTable();
             DataTable mainCsvDataTable = loadSetFromCSV("C:\\Users\\James\\Student_List.csv"); // User option to change path in application
 
-            List<string> finalList = rowToPullFrom("P000407744", mainCsvDataTable); //Gotem
+            List<string> finalList = rowToPullFrom("P000485534", mainCsvDataTable); //Gotem
 
             Console.ReadKey();
 
