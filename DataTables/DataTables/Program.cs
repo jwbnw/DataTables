@@ -8,7 +8,7 @@ using DataTables;
 
 namespace DataTables
 {
-    class Program 
+    class Program
     {
 
         /*************************************************
@@ -56,9 +56,23 @@ namespace DataTables
         public static DataTable loadSetFromCSV(string filePath)
         {
             DataTable csvDt = new DataTable();
-
+            string[] csvRows = null;
             //read .csv into string[]
-            string[] csvRows = System.IO.File.ReadAllLines(filePath); //NOTE: When implementing put inside try-catch for event doc is being used by another program
+
+            //
+            while (csvRows == null)
+            {
+                try
+                {
+                    csvRows = System.IO.File.ReadAllLines(filePath); //NOTE: When implementing put inside try-catch for event doc is being used by another program
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine("IOException source: {0}", e.Source);
+                    Console.WriteLine("Error please close Exceel then press Enter");
+                    Console.ReadKey();
+                }
+            }
             string[] fields = null;
 
             //take the header row and split it up
@@ -118,7 +132,7 @@ namespace DataTables
                 Console.WriteLine(e);
             return s;
         }
-        
+
 
         //Main
         static void Main(string[] args)
@@ -126,7 +140,7 @@ namespace DataTables
             DataTable userDataTable = createUserSampleTable();
             DataTable mainCsvDataTable = loadSetFromCSV("C:\\Users\\James\\Student_List.csv"); // User option to change path in application
 
-            List<string> finalList = rowToPullFrom("P000485534", mainCsvDataTable); //Gotem
+            List<string> finalList = rowToPullFrom("P000484245", mainCsvDataTable); //Gotem
 
             Console.ReadKey();
 
