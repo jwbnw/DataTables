@@ -1,4 +1,15 @@
-﻿using System;
+﻿/*************************************************
+        Program Name: Data Tables
+        Author: James Belford
+        Description: This program was built to
+        have some fun with datatables and importing
+        .csv files. Part of a larger porject I am
+        working on
+        Date:  2/4/16
+        Author: James Belford 
+*******************************************************/
+
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -49,7 +60,8 @@ namespace DataTables
          and constructs a data table from the .csv.
          It is composed of two parts. One part creates
          the colums headers. The rest writes all the rows
-         Arguments: (O) csvDT - DataTable
+         Arguments: (I) filePath - string
+                    (O) csvDT - DataTable
          Author: James Belford 
          *************************************************/
 
@@ -59,12 +71,13 @@ namespace DataTables
             string[] csvRows = null;
             //read .csv into string[]
 
-            //
+            //Try catch block in the event of the .csv being open @ at different location
+            //While loop is self-explanatory 
             while (csvRows == null)
             {
                 try
                 {
-                    csvRows = System.IO.File.ReadAllLines(filePath); //NOTE: When implementing put inside try-catch for event doc is being used by another program
+                    csvRows = System.IO.File.ReadAllLines(filePath);
                 }
                 catch (Exception e)
                 {
@@ -115,32 +128,33 @@ namespace DataTables
      the ID to find the rows we need. We then move them 
      into a DataRow array. Which we then throw those 
      values into a list a return said list.
-     Arguments: (I) string - ID
-                (I) DataTable - csvDataTable
+     Arguments: (I) originalUserPid - string
+                (I) csvDataTable - DataTable
                 (O) s - List
      Author: James Belford 
      *************************************************/
-        public static List<string> rowToPullFrom(string originalUserPid, DataTable csvDataTable) //Comment up tomorrow
+        public static List<string> rowToPullFrom(string originalUserPid, DataTable csvDataTable) 
         {
 
             DataRow[] Classtemp = csvDataTable.Select("PEOPLE_CODE_ID='" + originalUserPid + "'");
 
-            // A damn nifty line of code if I may say so myself.
+            // A damn nifty line of code if I may say so myself, essentially using LINQ 
             List<string> s = Classtemp.AsEnumerable().Select(x => x.Field<string>("Class").ToString()).ToList();
 
-            foreach (string e in s)    //going to leave so I can do more debugging tomorrow
+            //For debugging 
+            foreach (string e in s)    
                 Console.WriteLine(e);
             return s;
         }
 
 
-        //Main
+        //Main 
         static void Main(string[] args)
         {
             DataTable userDataTable = createUserSampleTable();
             DataTable mainCsvDataTable = loadSetFromCSV("C:\\Users\\James\\Student_List.csv"); // User option to change path in application
 
-            List<string> finalList = rowToPullFrom("P000484245", mainCsvDataTable); //Gotem
+            List<string> finalList = rowToPullFrom("ID HERE", mainCsvDataTable); //Gotem
 
             Console.ReadKey();
 
